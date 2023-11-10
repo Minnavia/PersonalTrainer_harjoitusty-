@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { AgGridReact } from "ag-grid-react";
-import { Stack } from "@mui/material";
+import { Stack, Button, IconButton } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function TrainingList() {
     
@@ -22,6 +23,15 @@ export default function TrainingList() {
         {field: 'date', valueFormatter: timeFormatter, sortable: true, filter: true, width: 170},
         {field: 'duration', sortable: true, filter: true, width: 150},
         {field: 'activity', sortable: true, filter: true, width: 150},
+        {
+            cellRenderer: params =>
+            <IconButton>
+                <DeleteIcon size="small" onClick={() => deleteTraining(params.data.id)}>
+                    Delete
+                </DeleteIcon>
+            </IconButton>,
+            width: 100
+        }
     ]);
 
     
@@ -36,6 +46,19 @@ export default function TrainingList() {
         .then(data => setTrainings(data))
         .catch(err => console.error(err))
     };
+
+    const deleteTraining = (id) => {
+        if (window.confirm("Are you sure?")) {
+          fetch(`https://traineeapp.azurewebsites.net/api/trainings/${id}`, { method: 'DELETE' })
+          .then(response => {
+            if (response.ok)
+              fetchTrainings();
+            else
+              throw new Error("Error in DELETE: " + response.statusText);
+          })
+          .catch(err => console.error(err))
+          }
+      }
 
     return (
         <Stack alignItems={"center"}>
