@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { AgGridReact } from "ag-grid-react";
@@ -9,6 +9,8 @@ import AddTraining from "./AddTraining.jsx";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function CustomerList() {
+
+    const gridRef = useRef();
 
     useEffect(() => {
         fetchCustomers();
@@ -26,11 +28,11 @@ export default function CustomerList() {
         {field: 'phone', sortable: true, filter: true, width: 150},
         {
             cellRenderer: params => <AddTraining data={params.data}/>,
-            width: 75
+            width: 75,
         },
         {
             cellRenderer: params => <EditCustomer fetchCustomers={fetchCustomers} data={params.data}/>,
-            width: 75
+            width: 75,
         },
         {
             cellRenderer: params =>
@@ -39,7 +41,7 @@ export default function CustomerList() {
                     Delete
                 </DeleteIcon>
             </IconButton>,
-            width: 75
+            width: 75,
         }
         ]);
 
@@ -58,22 +60,31 @@ export default function CustomerList() {
 
     const deleteCustomer = (url) => {
         if (window.confirm("Are you sure?")) {
-          fetch(url, { method: 'DELETE' })
-          .then(response => {
+            fetch(url, { method: 'DELETE' })
+            .then(response => {
             if (response.ok)
-              fetchCustomers();
+                fetchCustomers();
             else
-              throw new Error("Error in DELETE: " + response.statusText);
-          })
-          .catch(err => console.error(err))
-          }
-      }
+                throw new Error("Error in DELETE: " + response.statusText);
+            })
+            .catch(err => console.error(err))
+        }
+    }
+
+    const onBtnExport = useCallback(() => {
+        var params = {
+            columnKeys: ['firstname', 'lastname', 'streetaddress', 'postcode', 'city', 'email', 'phone']
+        };
+        gridRef.current.api.exportDataAsCsv(params);
+    }, []);
 
     return (
         <Stack alignItems={"center"}>
             <AddCustomer fetchCustomers={fetchCustomers}/>
+            <Button onClick={onBtnExport}>Export csv</Button>
             <div className="ag-theme-material" style={{width: 1300, height: 600}}>
                 <AgGridReact
+                    ref={gridRef}
                     rowData={customers}
                     columnDefs={columnDefs}
                     pagination={true}
