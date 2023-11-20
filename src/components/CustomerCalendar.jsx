@@ -10,13 +10,6 @@ export default function CustomerCalendar() {
 
     const localizer = momentLocalizer(moment);
 
-    const ColoredDateCellWrapper = ({ children }) =>
-        React.cloneElement(React.Children.only(children), {
-            style: {
-            backgroundColor: 'lightblue',
-            },
-        })
-
     useEffect(() => {
         fetchTrainings();
     }, []);
