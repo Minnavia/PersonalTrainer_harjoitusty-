@@ -1,11 +1,8 @@
 import { Container } from '@mui/material'
 import './App.css'
 import {Tabs, Tab, Stack} from '@mui/material';
-import CustomerList from '../src/components/CustomerList.jsx';
-import TrainingList from '../src/components/TrainingList.jsx';
-import CustomerCalendar from '../src/components/CustomerCalendar.jsx';
-import TrainingGraph from './components/TrainingGraph.jsx';
 import { useState } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 
 function App() {
 
@@ -18,21 +15,18 @@ function App() {
   return (
     <Container maxWidth='xl' >
       <Stack alignItems='center'>
-          <Tabs value={value} onChange={handleChange}>
-            <Tab value='customers' label="CUSTOMERS"/>
-            <Tab value='trainings' label="TRAININGS"/>
-            <Tab value='calendar' label="CALENDAR"/>
-            <Tab value='graph' label="GRAPH"/>
-          </Tabs>
+        <Tabs
+        value={value}
+        onChange={handleChange}
+        textColor='secondary'
+        indicatorColor='secondary'>
+          <Tab label="customers" component={Link} to={"/"}></Tab>
+          <Tab label="trainings" component={Link} to={"/trainings"}></Tab>
+          <Tab label="calendar" component={Link} to={"/calendar"}></Tab>
+          <Tab label="graph" component={Link} to={"/graph"}></Tab>
+        </Tabs>
       </Stack>
-        {value === 'customers' && <div>
-          <CustomerList/></div>}
-        {value === 'trainings' && <div>
-          <TrainingList/></div>}
-        {value === 'calendar' && <div>
-          <CustomerCalendar/></div>}
-        {value === 'graph' && <div>
-          <TrainingGraph/></div>}
+      <Outlet/>
     </Container>
   )
 }

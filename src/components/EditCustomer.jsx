@@ -57,8 +57,8 @@ export default function EditCustomer({fetchCustomers, data}) {
 
     return (
         <div>
-            <IconButton>
-                <EditIcon size="small" onClick={handleClickOpen}>Edit</EditIcon>
+            <IconButton onClick={handleClickOpen}>
+                <EditIcon size="small">Edit</EditIcon>
             </IconButton>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Edit Customer</DialogTitle>

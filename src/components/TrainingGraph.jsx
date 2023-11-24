@@ -1,6 +1,6 @@
-import { chain, forEach, groupBy, mapValues, sumBy, values } from 'lodash';
+import { groupBy, mapValues, sumBy } from 'lodash';
 import { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Rectangle } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Rectangle, ResponsiveContainer } from 'recharts';
 
 export default function TrainingGraph(){
     
@@ -36,10 +36,8 @@ export default function TrainingGraph(){
     const grpahArray = Object.keys(graphData).map(activity => ({ activity, duration: graphData[activity] }));
 
     return (
-        <div>
+        <ResponsiveContainer minWidth={600} width="100%" height={400}>
             <BarChart
-            width={600}
-            height={400}
             data={grpahArray}
             margin={{
                 top: 5,
@@ -52,8 +50,8 @@ export default function TrainingGraph(){
                 <YAxis/>
                 <Tooltip/>
                 <Legend/>
-                <Bar dataKey='duration' fill='#82ca9d' activeBar={<Rectangle fill='gold' stroke='purple'/>}/>
+                <Bar dataKey='duration' fill='#42a5f5' activeBar={<Rectangle fill='gold' stroke='purple'/>}/>
             </BarChart>
-        </div>
+        </ResponsiveContainer>
     )
 }

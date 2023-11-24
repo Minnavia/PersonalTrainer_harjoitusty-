@@ -46,8 +46,8 @@ export default function AddTraining({data}) {
 
     return (
         <div>
-            <IconButton>
-                <AddIcon onClick={handleClickOpen}>Add training</AddIcon>
+            <IconButton onClick={handleClickOpen}>
+                <AddIcon>Add training</AddIcon>
             </IconButton>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>New Training</DialogTitle>

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { AgGridReact } from "ag-grid-react";
-import { Button, Icon, IconButton, Stack } from "@mui/material";
+import { Button, ButtonGroup, IconButton, Stack } from "@mui/material";
 import AddCustomer from "./AddCustomer.jsx";
 import EditCustomer from "./EditCustomer.jsx";
 import AddTraining from "./AddTraining.jsx";
@@ -36,10 +36,8 @@ export default function CustomerList() {
         },
         {
             cellRenderer: params =>
-            <IconButton>
-                <DeleteIcon size="small" onClick={() => deleteCustomer(params.data.links[1].href)}>
-                    Delete
-                </DeleteIcon>
+            <IconButton onClick={() => deleteCustomer(params.data.links[1].href)}>
+                <DeleteIcon/>
             </IconButton>,
             width: 75,
         }
@@ -80,8 +78,10 @@ export default function CustomerList() {
 
     return (
         <Stack alignItems={"center"}>
-            <AddCustomer fetchCustomers={fetchCustomers}/>
-            <Button onClick={onBtnExport}>Export csv</Button>
+            <ButtonGroup variant="outlined" sx={{ p: 2 }} color="primary">
+                <AddCustomer fetchCustomers={fetchCustomers}/>
+                <Button onClick={onBtnExport}>Export csv</Button>
+            </ButtonGroup>
             <div className="ag-theme-material" style={{width: 1300, height: 600}}>
                 <AgGridReact
                     ref={gridRef}
