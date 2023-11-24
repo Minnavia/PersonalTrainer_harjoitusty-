@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { AgGridReact } from "ag-grid-react";
-import { Stack, Button, IconButton } from "@mui/material";
+import { Stack, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { format, parseISO } from "date-fns";
 
 export default function TrainingList() {
     
@@ -14,7 +15,7 @@ export default function TrainingList() {
     const [trainings, setTrainings] = useState();
 
     const timeFormatter = (params) => {
-        return (params.value.substring(8, 10) + '-' + params.value.substring(5, 7) + '-' + params.value.substring(0, 4)) + ' ' + params.value.substring(11, 16);
+        return format(parseISO(params.value), 'dd.MM.yyyy HH:mm');
     };
 
     const[columnDefs] = useState([
@@ -25,8 +26,8 @@ export default function TrainingList() {
         {field: 'activity', sortable: true, filter: true, width: 150},
         {
             cellRenderer: params =>
-            <IconButton>
-                <DeleteIcon size="small" onClick={() => deleteTraining(params.data.id)}>
+            <IconButton onClick={() => deleteTraining(params.data.id)}>
+                <DeleteIcon size="small">
                     Delete
                 </DeleteIcon>
             </IconButton>,

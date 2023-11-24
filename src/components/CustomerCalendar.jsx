@@ -1,7 +1,7 @@
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import dayjs from "dayjs";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 export default function CustomerCalendar() {
